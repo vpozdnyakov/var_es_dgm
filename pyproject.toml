@@ -20,6 +20,7 @@ seaborn = "^0.13.2"
 optuna = "^3.6.1"
 pandas = "^2.2.2"
 numpy = "^1.26.4"
+huggingface-hub = "^0.25.2"
 
 
 [build-system]
