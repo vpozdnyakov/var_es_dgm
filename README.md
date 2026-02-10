@@ -7,15 +7,16 @@ Thesis: https://www.hse.ru/en/edu/vkr/926006463?ysclid=m3e6gvwzru724833110
 
 ### Installation
 ___
-The dependency managament in project was implemented via [poetry](https://python-poetry.org).
-To clone this repository and set up the environment, run the following commands:
+The dependency management in this project relies on [poetry](https://python-poetry.org). Create or reuse a Python 3.10 environment (for example with `conda create -n var_es_dgm python=3.10`) and activate it **before** running any commands:
+
 ```bash
+conda activate var_es_dgm
 git clone https://github.com/BELONOVSKII/var_es_dgm.git
 cd var_es_dgm
 poetry install
-poetry shell
 ```
-**Note:** poetry should be pre-installed in your system.
+
+Poetry must be available in the activated environment.
 
 ### Download data
 ___
@@ -34,8 +35,28 @@ ___
 
 ### Experiments
 ___
-* Univariate:`experiments/univariate`
-* Multivariate: `experiments/multivariate`
+All 16 experiments (2 dimensions × 4 methods × 2 VaR levels) can now be launched from the CLI. Activate the environment and call the runner:
+
+```bash
+python -m var_es_dgm.experiments.cli --dimension univariate --method timegrad --level 0.05 --device mps
+```
+
+Key flags:
+
+- `--method`: `timegrad`, `timegrad_tuned`, `historical`, or `variance_covariance`. Use `--method all` to sweep every method for one dimension.
+- `--run-all`: executes the entire 2×4×2 grid sequentially.
+- `--level`: VaR level (`0.05` or `0.01`).
+- `--n-repeats`: number of randomly sampled portfolios (default 5).
+- `--portfolio-size`: number of tickers per portfolio (default 10).
+- `--device`: torch device (`cpu`, `cuda`, `mps`, ...).
+
+Outputs are written to `results/`:
+
+- `results/checkpoints/<dimension>_<method>_<level>/repeat_<k>.pt` – TimeGrad weights.
+- `results/logs/.../repeat_<k>.json` – run configuration, tickers, metrics, and loss curves.
+- `results/results/.../summary.json` – mean statistics across repeats.
+
+Legacy Jupyter notebooks remain under `experiments/` for reference, but the CLI is the source of truth for reproducible runs.
 
 ### Visualisations
 ___

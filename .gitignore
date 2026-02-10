@@ -479,3 +479,5 @@ __pycache__/
 # OpenCover UI analysis results
 OpenCover/
 junit/
+
+results/
